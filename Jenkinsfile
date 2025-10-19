@@ -1,35 +1,37 @@
-environment {
-  CHART_PATH = '.'
-  RELEASE    = 'myapp'
-  NAMESPACE  = 'app'
-  IMAGE      = 'umut062/myapp'
-  IMAGE_TAG  = 'latest'
-}
-
-stages {
-  stage('Helm dry-run') {
-    steps {
-      sh '''
-        helm dependency update "$CHART_PATH" || true
-        helm lint "$CHART_PATH" || true
-        helm upgrade --install "$RELEASE" "$CHART_PATH" \
-          -n "$NAMESPACE" --create-namespace \
-          -f "$CHART_PATH/values.yaml" \
-          --set image.repository="$IMAGE" \
-          --set image.tag="$IMAGE_TAG" \
-          --dry-run
-      '''
-    }
+node {
+  // Repo içeriğini workspace'e al (Pipeline script from SCM'de çoğu zaman gerekir)
+  stage('Checkout') {
+    checkout scm
+    sh 'pwd && ls -la'
   }
+
+  // Değişkenler
+  env.CHART_PATH = '.'
+  env.RELEASE    = 'myapp'
+  env.NAMESPACE  = 'app'
+  env.IMAGE      = 'umut062/myapp'
+  env.IMAGE_TAG  = 'latest'
+
+  stage('Helm dry-run') {
+    sh """
+      helm dependency update "${env.CHART_PATH}" || true
+      helm lint "${env.CHART_PATH}" || true
+      helm upgrade --install "${env.RELEASE}" "${env.CHART_PATH}" \\
+        -n "${env.NAMESPACE}" --create-namespace \\
+        -f "${env.CHART_PATH}/values.yaml" \\
+        --set image.repository="${env.IMAGE}" \\
+        --set image.tag="${env.IMAGE_TAG}" \\
+        --dry-run
+    """
+  }
+
   stage('Helm deploy') {
-    steps {
-      sh '''
-        helm upgrade --install "$RELEASE" "$CHART_PATH" \
-          -n "$NAMESPACE" --create-namespace \
-          -f "$CHART_PATH/values.yaml" \
-          --set image.repository="$IMAGE" \
-          --set image.tag="$IMAGE_TAG"
-      '''
-    }
+    sh """
+      helm upgrade --install "${env.RELEASE}" "${env.CHART_PATH}" \\
+        -n "${env.NAMESPACE}" --create-namespace \\
+        -f "${env.CHART_PATH}/values.yaml" \\
+        --set image.repository="${env.IMAGE}" \\
+        --set image.tag="${env.IMAGE_TAG}"
+    """
   }
 }
