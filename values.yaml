@@ -51,3 +51,7 @@ httpRoute:
   tls:
     enabled: false
     secretName: ""
+
+autoscaling:
+  enabled: false
+
