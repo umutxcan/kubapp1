@@ -39,3 +39,15 @@ serviceAccount:
   create: true
   name: ""
   annotations: {}
+
+
+httpRoute:
+  enabled: false          # Gateway API kullanmayacaksan false
+  hosts:
+    - host: umutcan.info
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    enabled: false
+    secretName: ""
