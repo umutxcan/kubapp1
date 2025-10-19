@@ -1,0 +1,6 @@
+﻿.git/
+.vscode/
+.idea/
+*.md
+*.tgz
+values-secret.yaml

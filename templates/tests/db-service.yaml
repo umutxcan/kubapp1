@@ -1,0 +1,11 @@
+{{- if .Values.externalDb.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.externalDb.name }}
+spec:
+  ports:
+    - name: psql
+      port: {{ .Values.externalDb.port }}
+      protocol: TCP
+{{- end }}

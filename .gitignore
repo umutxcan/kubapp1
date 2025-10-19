@@ -1,0 +1,13 @@
+﻿# Helm paketleri ve cache
+*.tgz
+charts/*-charts.tgz
+.chartcache/
+
+# Gizli değer dosyaları
+values-secret.yaml
+secrets.yaml
+
+# IDE ve OS
+.vscode/
+.idea/
+.DS_Store

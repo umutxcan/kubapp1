@@ -1,0 +1,14 @@
+{{- if .Values.externalDb.enabled }}
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: {{ .Values.externalDb.name }}
+subsets:
+  - addresses:
+      {{- range .Values.externalDb.addresses }}
+      - ip: {{ . | quote }}
+      {{- end }}
+    ports:
+      - name: psql
+        port: {{ .Values.externalDb.port }}
+{{- end }}

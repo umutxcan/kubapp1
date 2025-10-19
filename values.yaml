@@ -1,0 +1,36 @@
+replicaCount: 1
+
+image:
+  repository: umut062/myapp
+  tag: "latest"
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 8080        # Servisin verdiği port
+  targetPort: 5000  # Container (Flask) portu
+
+# DB env'lerini vermek istiyorsan bu blok kullanılır.
+# İstemezsen deployment'taki env kısmını kaldırırsın.
+database:
+  enabled: true
+  host: "myapp-db"  # Jenkins'in oluşturduğu Service adı
+  port: "5432"
+  secretName: "db-secret"  # Jenkins'in oluşturduğu secret
+
+externalDb:
+  enabled: true
+  name: "myapp-db"
+  port: 5432
+  addresses:                # birden fazla IP verebilirsin
+    - "192.168.100.12"
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  hosts:
+    - host: myapp.umutcan.info
+      paths:
+        - path: /
+          pathType: Prefix
