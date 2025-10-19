@@ -30,7 +30,7 @@ ingress:
   className: nginx
   annotations: {}
   hosts:
-    - host: .umutcan.info
+    - host: umutcan.info
       paths:
         - path: /
           pathType: Prefix
