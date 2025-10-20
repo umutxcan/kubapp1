@@ -14,7 +14,7 @@ service:
 # İstemezsen deployment'taki env kısmını kaldırırsın.
 database:
   enabled: true
-  host: "myapp-db"  # Jenkins'in oluşturduğu Service adı
+  host: "192.168.100.12"  # Jenkins'in oluşturduğu Service adı
   port: "5432"
   secretName: "db-secret"  # Jenkins'in oluşturduğu secret
 
