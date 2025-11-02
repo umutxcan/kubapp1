@@ -1,0 +1,59 @@
+global:
+  scrape_interval: 30s
+
+grafana:
+  admin:
+    # Parolayı repoda tutmamak en iyisi. Boş bırakırsan chart kendi secret'ını üretir.
+    # Sonra "kubectl get secret ... grafana -o jsonpath=... | base64 -d" ile okursun.
+    existingSecret: ""
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - grafana.umutcan.info   # kendi domainin
+    path: /
+    # TLS kullanıyorsan (cert-manager vs) şunları aç:
+    # tls:
+    #   - hosts:
+    #       - grafana.umutcan.info
+    #     secretName: grafana-tls
+
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - prometheus.umutcan.info
+    path: /
+    # tls:
+    #   - hosts: [prometheus.umutcan.info]
+    #     secretName: prometheus-tls
+
+  prometheusSpec:
+    retention: 7d              # veri tutma süresi
+    retentionSize: "15GB"      # disk sınırı (persistence açınca anlamlı)
+    # persistence açık istersen:
+    # storageSpec:
+    #   volumeClaimTemplate:
+    #     spec:
+    #       accessModes: [ "ReadWriteOnce" ]
+    #       resources:
+    #         requests:
+    #           storage: 20Gi
+
+alertmanager:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - alertmanager.umutcan.info
+    path: /
+    # tls:
+    #   - hosts: [alertmanager.umutcan.info]
+    #     secretName: alertmanager-tls
+
+# Node exporter, kube-state-metrics vb. zaten bu chart ile gelir.
+
+
