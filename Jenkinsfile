@@ -58,7 +58,7 @@ pipeline {
             # Manager'da helm yoksa kur
             ssh -o StrictHostKeyChecking=no root@${MANAGER} 'command -v helm >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash'
 
-            # Chart manager'a senkronla (çöp dosyaları hariç)
+            # Chart manager'a senkronla (çöp dosyalar hariç)
             rsync -az --delete \
               --exclude ".git" --exclude "bin" --exclude "helm" \
               ./ root@${MANAGER}:${REMOTE_DIR}/
@@ -111,7 +111,7 @@ pipeline {
     set -e
     helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
     helm repo update
-    cd /root/ci   # repoyu nereye çektiysen oraya cd yap
+    cd /root/kubapp1  # repoyu nereye çektiysen oraya cd yap
     helm upgrade --install kube-prometheus-stack \
       prometheus-community/kube-prometheus-stack \
       -n monitoring --create-namespace \
