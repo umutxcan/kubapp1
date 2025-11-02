@@ -23,9 +23,8 @@ pipeline {
         checkout scm
         sh '''
           set -e
-          # Repo dışı/önceki artıkları temizle
+          # Repo /önceki  temizle
           git clean -xfd || true
-          # Kökte kazayla kalmış "helm" dosyası vs. varsa sil
           find . -maxdepth 1 -type f -name helm -delete || true
           find . -maxdepth 2 -type d -name bin -exec rm -rf {} + || true
           ls -la
@@ -59,7 +58,7 @@ pipeline {
             # Manager'da helm yoksa kur
             ssh -o StrictHostKeyChecking=no root@${MANAGER} 'command -v helm >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash'
 
-            # Chart'ı manager'a senkronla (çöp dosyaları hariç)
+            # Chart manager'a senkronla (çöp dosyaları hariç)
             rsync -az --delete \
               --exclude ".git" --exclude "bin" --exclude "helm" \
               ./ root@${MANAGER}:${REMOTE_DIR}/
@@ -104,5 +103,24 @@ pipeline {
         }
       }
     }
+    stage('Install/Upgrade Monitoring') {
+      steps {
+        sshagent(credentials: ['root-ssh']) {
+          sh '''
+    ssh -o StrictHostKeyChecking=no root@192.168.100.108 <<'EOS'
+    set -e
+    helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
+    helm repo update
+    cd /root/ci   # repoyu nereye çektiysen oraya cd yap
+    helm upgrade --install kube-prometheus-stack \
+      prometheus-community/kube-prometheus-stack \
+      -n monitoring --create-namespace \
+      -f monitoring-values.yaml
+    kubectl -n monitoring get ingress,pods
+    EOS
+    '''
+        }
+      }
+    }  
   }
 }
