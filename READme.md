@@ -45,17 +45,18 @@ The infrastructure supports **continuous deployment**, **load balancing**, and *
 
 ## 📁 Repository Structure
 
+.
 ├── charts/
-│ └── myapp/ # Helm chart for application
+│   └── myapp/                 # Helm chart for application
 ├── jenkins/
-│ └── Jenkinsfile # CI/CD pipeline definition
+│   └── Jenkinsfile            # CI/CD pipeline definition
 ├── monitoring/
-│ ├── prometheus-values.yaml
-│ ├── grafana-values.yaml
-│ └── alertmanager-values.yaml
+│   ├── prometheus-values.yaml
+│   ├── grafana-values.yaml
+│   └── alertmanager-values.yaml
 └── README.md
 
 ---
 
 ## 🧑‍💻 Author
-Created by **[Your Name]** — DevOps Automation & Cloud Infrastructure Project
+Created by **[Umut Can]** — DevOps Automation & Cloud Infrastructure Project
