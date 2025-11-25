@@ -103,24 +103,5 @@ pipeline {
         }
       }
     }
-    stage('Install/Upgrade Monitoring') {
-      steps {
-        sshagent(credentials: ['root-ssh']) {
-          sh '''
-    ssh -o StrictHostKeyChecking=no root@${MANAGER} <<'EOS'
-    set -e
-    helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
-    helm repo update
-    cd /root/kubapp1
-    helm upgrade --install kube-prometheus-stack \
-      prometheus-community/kube-prometheus-stack \
-      -n monitoring --create-namespace \
-      -f monitoring-values.yaml
-    kubectl -n monitoring get ingress,pods
-    EOS
-    '''
-        }
-      }
-    }
   }
 }
