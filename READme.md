@@ -45,7 +45,6 @@ The infrastructure supports **continuous deployment**, **load balancing**, and *
 
 ## 📁 Repository Structure
 
-```text
 .
 ├── charts/
 │   └── myapp/                  # Helm chart for application
@@ -60,4 +59,5 @@ The infrastructure supports **continuous deployment**, **load balancing**, and *
 ---
 
 ## 🧑‍💻 Author
-Created by **[Umut Can]** — DevOps Automation & Cloud Infrastructure Project
+Created by **Umut Can** — DevOps Automation & Cloud Infrastructure Project  
+© 2025 — All rights reserved.
