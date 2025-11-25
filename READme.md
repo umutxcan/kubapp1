@@ -45,6 +45,7 @@ The infrastructure supports **continuous deployment**, **load balancing**, and *
 
 ## 📁 Repository Structure
 
+```text
 .
 ├── charts/
 │   └── myapp/                  # Helm chart for application
