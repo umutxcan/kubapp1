@@ -45,11 +45,12 @@ The infrastructure supports **continuous deployment**, **load balancing**, and *
 
 ## 📁 Repository Structure
 
+```text
 .
 ├── charts/
-│   └── myapp/                 # Helm chart for application
+│   └── myapp/                  # Helm chart for application
 ├── jenkins/
-│   └── Jenkinsfile            # CI/CD pipeline definition
+│   └── Jenkinsfile             # CI/CD pipeline definition
 ├── monitoring/
 │   ├── prometheus-values.yaml
 │   ├── grafana-values.yaml
